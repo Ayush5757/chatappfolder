@@ -24,7 +24,9 @@ io.on('connection', (socket)=>{
     io.emit('getOnlineUsers', Object.keys(userSocketMap))
   })
 })
-
+app.use('/jack',(req,res)=>{
+  res.send('jack is a good boy')
+})
 app.use(express.json({ limit: "4mb" }));
 app.use(cors());
 await connectDB();   
