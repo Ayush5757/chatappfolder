@@ -14,15 +14,15 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+          element={authUser ? <HomePage /> : <Navigate to={"/register"} />}
         />
         <Route
-          path="/login"
+          path="/register"
           element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
         />
         <Route
           path="/profile"
-          element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
+          element={authUser ? <ProfilePage /> : <Navigate to={"/register"} />}
         />
       </Routes>
     </div>

@@ -7,17 +7,10 @@ const LoginPage = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [bio, setBio] = useState('')
-  const [isDataSubmitted, setIsDataSubmitted] = useState(false);
 
   const { login } = useContext(AuthContext);
   const handelSubmit = (event) => {
     event.preventDefault();
-    if (currentState === "Sign Up" && !isDataSubmitted) {
-      setIsDataSubmitted(true);
-      return;
-    }
-
     login(currentState === "Sign Up" ? "signup" : "login", {
       fullName,
       email,
@@ -40,7 +33,7 @@ const LoginPage = () => {
         <h2 className="font-medium text-2xl flex justify-between items-center">
           {currentState}
         </h2>
-        {currentState === "Sign Up" && !isDataSubmitted && (
+        {currentState === "Sign Up" && (
           <input
             type="text"
             onChange={(e) => setFullName(e.target.value)}
@@ -52,7 +45,6 @@ const LoginPage = () => {
           />
         )}
 
-        {!isDataSubmitted && (
           <>
             <input
               type="email"
@@ -72,12 +64,6 @@ const LoginPage = () => {
               className="p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
             />
           </>
-        )}
-        {/* {currentState === "Sign Up" && isDataSubmitted && (
-        <textArea onChange={(e)=>setBio(e.target.value)} value={bio} rows={4}
-        className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 
-        focus:ring-indigo-500' placeholder='provide a short bio...' required></textArea>
-      )} */}
 
         <button
           type="submit"
@@ -94,7 +80,6 @@ const LoginPage = () => {
                 className="ml-1 font-medium text-purple-500 cursor-pointer hover:border-b-2"
                 onClick={() => {
                   setCurrentState("Login");
-                  setIsDataSubmitted(false);
                 }}
               >
                 Login

@@ -53,10 +53,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', data.token)
         toast.success(data.message)
       } else {
-        toast.error(data.message)
+        toast.error('Please enter right information')
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Something went wrong')
+      console.log('error = ',error);
     }
   }
 
