@@ -75,7 +75,7 @@ const ChatContainer = () => {
       </div>
       {/* main part chat */}
 
-      <div className="flex flex-col h-[80%] overflow-y-scroll p-3 pb-20 ">
+      <div className="flex flex-col h-[60%] lg:h-[80%]  overflow-y-scroll p-3 pb-20 ">
         {messages?.map((msg, index) => (
           <div
             key={index}
