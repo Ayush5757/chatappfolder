@@ -23,7 +23,7 @@ const LoginPage = () => {
     max-sm:flex-col bg-gradient-to-r from-violet-950 via-black-100 to-black-800 h-screen w-full px-10"
     >
       {/* left */}
-      <img src={assets.loginpage} alt="Logo" className="w-[min(50vw,450px)]" />
+      <img src={assets.loginpage} alt="Logo" className="w-[min(50vw,450px)] hidden lg:block" />
       {/* right */}
       <form
         onSubmit={handelSubmit}
