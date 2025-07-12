@@ -20,15 +20,15 @@ const LoginPage = () => {
   return (
     <div
       className="min-h-screen  flex items-center justify-center gap-8 sm:justify-evenly 
-    max-sm:flex-col bg-gradient-to-r from-violet-950 via-black-100 to-black-800 h-screen w-full"
+    max-sm:flex-col bg-gradient-to-r from-violet-950 via-black-100 to-black-800 h-screen w-full px-10"
     >
       {/* left */}
-      <img src={assets.loginpage} alt="Logo" className="w-[min(30vw,450px)]" />
+      <img src={assets.loginpage} alt="Logo" className="w-[min(50vw,450px)]" />
       {/* right */}
       <form
         onSubmit={handelSubmit}
         action=""
-        className="border-2  text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg"
+        className="border-2 text-white  border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg px-10 w-full md:w-[100%] lg:w-[40%] "
       >
         <h2 className="font-medium text-2xl flex justify-between items-center">
           {currentState}

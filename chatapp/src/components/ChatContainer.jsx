@@ -1,53 +1,53 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import assets  from "../assets/assets";
+import assets from "../assets/assets";
 import { formateMessageTime } from "../library/utils";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthProvider";
 import toast from "react-hot-toast";
 
 const ChatContainer = () => {
+  const { messages, selectedUser, setSelectedUser, sendMessage, getMessages } =
+    useContext(ChatContext);
 
-  const {messages, selectedUser, setSelectedUser, sendMessage, getMessages} = useContext(ChatContext)
-  
-  const { authUser, onlineUsers } = useContext(AuthContext)
-  const [input, setInput] = useState('');
-  const scrollRef = useRef()
+  const { authUser, onlineUsers } = useContext(AuthContext);
+  const [input, setInput] = useState("");
+  const scrollRef = useRef();
 
-  useEffect(()=>{
-    if(scrollRef.current && messages){
-     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  useEffect(() => {
+    if (scrollRef.current && messages) {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  },[messages])
+  }, [messages]);
 
-  useEffect(()=>{
-    if(selectedUser){
-      getMessages(selectedUser._id)
+  useEffect(() => {
+    if (selectedUser) {
+      getMessages(selectedUser._id);
     }
-  },[selectedUser])
+  }, [selectedUser]);
 
-  async function handelSendMessage(e){
+  async function handelSendMessage(e) {
     e.preventDefault();
-    if(input.trim() === '') return null;
-    await sendMessage({text: input.trim()});
-    setInput(''); 
+    if (input.trim() === "") return null;
+    await sendMessage({ text: input.trim() });
+    setInput("");
   }
 
-  function handelSendImage(e){
+  function handelSendImage(e) {
     const file = e.target.files[0];
-    if(!file || !file.type.startsWith('image/')){
-      toast.error('Select an image file');
-      return
+    if (!file || !file.type.startsWith("image/")) {
+      toast.error("Select an image file");
+      return;
     }
     const reader = new FileReader();
-    reader.onloadend = async ()=>{
-      await sendMessage({image: reader.result})
-      e.terget.value = ''
-    }
+    reader.onloadend = async () => {
+      await sendMessage({ image: reader.result });
+      e.terget.value = "";
+    };
     reader.readAsDataURL(file);
   }
 
   return selectedUser ? (
-    <div className=" bg-gradient-to-r from-black via-gray-900 to-black  h-full overflow-scroll relative">
+    <div className="bg-gradient-to-r from-black via-gray-900 to-black  h-full overflow-scroll relative">
       {/* header of chat (middle) part */}
       <div className="flex items-center gap-3 py-3 mx-4 border-b border-stone-500">
         <img
@@ -57,7 +57,13 @@ const ChatContainer = () => {
         />
         <p className="flex-1 text-lg text-white flex items-center gap-2">
           {selectedUser.fullName}
-          <span className={`w-2 h-2 rounded-full ${onlineUsers.includes(selectedUser._id)?'bg-green-500':'bg-gray-500'}`}></span>
+          <span
+            className={`w-2 h-2 rounded-full ${
+              onlineUsers.includes(selectedUser._id)
+                ? "bg-green-500"
+                : "bg-gray-500"
+            }`}
+          ></span>
         </p>
         <img
           src={assets.arrow_icon}
@@ -69,7 +75,7 @@ const ChatContainer = () => {
       </div>
       {/* main part chat */}
 
-      <div className="flex flex-col h-[calc(100%-120px)] overflow-y-scroll p-3 pb-6 ">
+      <div className="flex flex-col h-[80%] overflow-y-scroll p-3 pb-6 ">
         {messages?.map((msg, index) => (
           <div
             key={index}
@@ -96,26 +102,58 @@ const ChatContainer = () => {
               </p>
             )}
             <div className="text-center text-xs">
-              <img src={msg?.senderId === authUser._id ? authUser?.profilePic || assets.avatar_icon : selectedUser?.profilePic || assets.avatar_icon} alt="images" className="w-7 rounded-full" />
-              <p className="text-gray-500">{formateMessageTime(msg?.createdAt)}</p>
+              <img
+                src={
+                  msg?.senderId === authUser._id
+                    ? authUser?.profilePic || assets.avatar_icon
+                    : selectedUser?.profilePic || assets.avatar_icon
+                }
+                alt="images"
+                className="w-7 rounded-full"
+              />
+              <p className="text-gray-500">
+                {formateMessageTime(msg?.createdAt)}
+              </p>
             </div>
           </div>
         ))}
         <span ref={scrollRef}></span>
       </div>
+
       {/* message typing area */}
-      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3">
-        <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
-          <input type="text" placeholder="Send a message" onChange={(e)=>setInput(e.target.value)} value={input}
-          onKeyDown={(e)=> e.key === 'Enter' && handelSendMessage(e)} 
-          className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"/>
-          <input type="file" id="image" onChange={handelSendImage} accept="image/png, image/jpeg" hidden/>
-          <label htmlFor="image">
-            <img src={assets.gallery_icon} alt="Select gallery image" className="w-5 mr-2 cursor-pointer" />
-          </label>
+      <div className=" flex w-full items-center">
+        <div className="bottom-5  w-full left-0 right-0 flex items-center gap-3 p-3">
+          <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
+            <input
+              type="text"
+              placeholder="Send a message"
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+              onKeyDown={(e) => e.key === "Enter" && handelSendMessage(e)}
+              className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"
+            />
+            <input
+              type="file"
+              id="image"
+              onChange={handelSendImage}
+              accept="image/png, image/jpeg"
+              hidden
+            />
+            <label htmlFor="image">
+              <img
+                src={assets.gallery_icon}
+                alt="Select gallery image"
+                className="w-5 mr-2 cursor-pointer"
+              />
+            </label>
+          </div>
+          <img
+            src={assets.send_button}
+            alt="send button"
+            onClick={(e) => handelSendMessage(e)}
+            className="w-7 cursor-pointer rotate-45"
+          />
         </div>
-        <img src={assets.send_button} alt="send button" onClick={(e)=>handelSendMessage(e)} 
-        className="w-7 cursor-pointer rotate-45"/>
       </div>
     </div>
   ) : (
