@@ -75,7 +75,7 @@ const ChatContainer = () => {
       </div>
       {/* main part chat */}
 
-      <div className="flex flex-col h-[75%] overflow-y-scroll p-3 pb-6 ">
+      <div className="flex flex-col h-[80%] overflow-y-scroll p-3 pb-20 ">
         {messages?.map((msg, index) => (
           <div
             key={index}
@@ -121,8 +121,8 @@ const ChatContainer = () => {
       </div>
 
       {/* message typing area */}
-      <div className="w-full h-[15%] flex items-end z-10 bg-gradient-to-r from-black via-gray-900 to-black">
-        <div className="w-full flex items-center gap-3 p-3 sticky bottom-0">
+      <div className="w-full sticky bottom-0 z-10 bg-gradient-to-r from-black via-gray-900 to-black">
+        <div className="flex items-center gap-3 p-3">
           <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
             <input
               type="text"
