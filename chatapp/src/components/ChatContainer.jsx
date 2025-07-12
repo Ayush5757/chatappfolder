@@ -49,7 +49,7 @@ const ChatContainer = () => {
   return selectedUser ? (
     <div className="bg-gradient-to-r from-black via-gray-900 to-black  h-full overflow-scroll relative">
       {/* header of chat (middle) part */}
-      <div className="flex items-center gap-3 py-3 mx-4 border-b border-stone-500">
+      <div className="flex items-center gap-3 py-3 mx-4 border-b border-stone-500 h-[10%]">
         <img
           src={selectedUser.profilePic || assets.avatar_icon}
           alt="user profile"
@@ -75,7 +75,7 @@ const ChatContainer = () => {
       </div>
       {/* main part chat */}
 
-      <div className="flex flex-col h-[80%] overflow-y-scroll p-3 pb-6 ">
+      <div className="flex flex-col h-[75%] overflow-y-scroll p-3 pb-6 ">
         {messages?.map((msg, index) => (
           <div
             key={index}
@@ -121,8 +121,8 @@ const ChatContainer = () => {
       </div>
 
       {/* message typing area */}
-      <div className="w-full sticky bottom-0 z-10 bg-gradient-to-r from-black via-gray-900 to-black">
-        <div className="flex items-center gap-3 p-3">
+      <div className="w-full h-[15%] flex items-end z-10 bg-gradient-to-r from-black via-gray-900 to-black">
+        <div className="w-full flex items-center gap-3 p-3 sticky bottom-0">
           <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
             <input
               type="text"
