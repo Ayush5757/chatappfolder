@@ -75,7 +75,7 @@ const ChatContainer = () => {
       </div>
       {/* main part chat */}
 
-      <div className="flex flex-col h-[80%] overflow-y-scroll p-3 pb-6 ">
+      <div className="flex flex-col h-[85%] overflow-y-scroll p-3 pb-6 ">
         {messages?.map((msg, index) => (
           <div
             key={index}
@@ -121,8 +121,8 @@ const ChatContainer = () => {
       </div>
 
       {/* message typing area */}
-      <div className=" flex w-full items-center">
-        <div className="bottom-5  w-full left-0 right-0 flex items-center gap-3 p-3">
+      <div className="w-full sticky bottom-0 z-10 bg-gradient-to-r from-black via-gray-900 to-black">
+        <div className="flex items-center gap-3 p-3">
           <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
             <input
               type="text"
@@ -130,7 +130,7 @@ const ChatContainer = () => {
               onChange={(e) => setInput(e.target.value)}
               value={input}
               onKeyDown={(e) => e.key === "Enter" && handelSendMessage(e)}
-              className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"
+              className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400 bg-transparent"
             />
             <input
               type="file"
