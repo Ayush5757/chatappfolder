@@ -1,39 +1,67 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import assets from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { ChatContext } from "../../context/ChatContext";
 const SideBar = () => {
-
-  const {getUsers, users, selectedUser, setSelectedUser, unSeenMessages, setUnseenMessages} = useContext(ChatContext)
+  const {
+    getUsers,
+    users,
+    selectedUser,
+    setSelectedUser,
+    unSeenMessages,
+    setUnseenMessages,
+  } = useContext(ChatContext);
   const navigate = useNavigate();
-  const [input, setInput] = useState('')
-  const { logout, onlineUsers} = useContext(AuthContext)
-  const filteredUsers = input? users.filter((user)=>user.fullName.toLowerCase().includes(input.toLowerCase())): users
- 
-  useEffect(()=>{
-    getUsers()
-  },[onlineUsers])
+  const [input, setInput] = useState("");
+  const { logout, onlineUsers } = useContext(AuthContext);
+  const filteredUsers = input
+    ? users.filter((user) =>
+        user.fullName.toLowerCase().includes(input.toLowerCase())
+      )
+    : users;
+  const [isPopupopen, setIsPopupOpen] = useState(false);
+  const ref = useRef(null);
 
-  
+  useEffect(() => {
+    function handelEvent(event) {
+      console.log("event ", event);
+      if (ref.current && !ref.current.contains(event.target)) {
+        setIsPopupOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handelEvent);
+    return () => {
+      document.removeEventListener("mousedown", handelEvent);
+    };
+  }, []);
+
+  useEffect(() => {
+    getUsers();
+  }, [onlineUsers]);
+
   return (
     <div
       className={`border-r-1 border-gray-700 h-full p-5  overflow-y-scroll text-white ${
         selectedUser ? "max-md:hidden" : ""
       }`}
+     
     >
       <div className="pb-5">
         <div className="flex justify-between items-center">
           <img src={assets.logo} alt="logo" className="max-w-40" />
-          <div className="relative py-2 group/menu">
+          <div className="relative py-2 group/menu"  ref={ref}>
             <img
               src={assets.menu_icon}
               alt="Menu"
               className="max-h-5 cursor-pointer"
+              onClick={() => setIsPopupOpen(true)}
             />
             <div
-              className="absolute top-full right-0 z-20 w-32 p-5 rounded-md bg-[#282142] border border-gray-600
-              text-gray-100 hidden group-hover/menu:block"
+              className={`absolute top-full right-0 z-20 w-32 p-5 rounded-md bg-[#282142] border border-gray-600
+              text-gray-100 ${
+                isPopupopen ? "block" : "hidden"
+              } group-hover/menu:block `}
             >
               <p
                 onClick={() => {
@@ -45,7 +73,9 @@ const SideBar = () => {
                 Edit Profile
               </p>
               <hr className="my-2 border-t border-gray-500" />
-              <p onClick={()=>logout()} className="cursor-pointer text-sm">LogOut</p>
+              <p onClick={() => logout()} className="cursor-pointer text-sm">
+                LogOut
+              </p>
             </div>
           </div>
         </div>
@@ -57,7 +87,7 @@ const SideBar = () => {
             className="bg-transparent border-none outline-none text-white text-sm
           placeholder-[#c8c8c8] flex-1"
             placeholder="Search User..."
-            onChange={(e)=>setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
             value={input}
           />
         </div>
@@ -68,8 +98,8 @@ const SideBar = () => {
           <div
             key={user?.email}
             onClick={() => {
-              setSelectedUser(user)
-              setUnseenMessages((prev)=>({...prev, [user._id] : 0 }))
+              setSelectedUser(user);
+              setUnseenMessages((prev) => ({ ...prev, [user._id]: 0 }));
             }}
             className={`relative border-b-2 border-b-gray-900 hover:bg-gray-800 flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm
             ${selectedUser?._id === user?._id && "bg-[#282142]/50"}`}

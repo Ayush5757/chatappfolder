@@ -7,16 +7,21 @@ const LoginPage = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   const { login } = useContext(AuthContext);
-  const handelSubmit = (event) => {
+
+  const handelSubmit = async (event) => {
     event.preventDefault();
-    login(currentState === "Sign Up" ? "signup" : "login", {
+    setIsLoading(true)
+    await login(currentState === "Sign Up" ? "signup" : "login", {
       fullName,
       email,
       password,
     });
+    setIsLoading(false) 
   };
+
   return (
     <div
       className="min-h-screen  flex items-center justify-center gap-8 sm:justify-evenly 
@@ -69,7 +74,7 @@ const LoginPage = () => {
           type="submit"
           className="py-3 text-white rounded-md cursor-pointer bg-purple-500 "
         >
-          {currentState === "Sign Up" ? "Create Account" : "Login Now"}
+          {isLoading ? 'Loading...' : currentState === "Sign Up" ? "Create Account" : "Login Now"}
         </button>
 
         <div className="flex flex-col gap-2">
